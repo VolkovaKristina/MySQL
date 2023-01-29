@@ -1,0 +1,371 @@
+1. select d_play_list_items.event_id,  
+d_play_list_items.song_id,  
+d_track_listings.song_id,  
+d_play_list_items.comments,  
+d_track_listings.cd_number,  
+d_track_listings.track  
+from d_play_list_items, d_track_listings 
+
+
+
+2. select d_play_list_items.event_id,  
+d_play_list_items.song_id,  
+d_track_listings.song_id,  
+d_play_list_items.comments,  
+d_track_listings.cd_number,  
+d_track_listings.track  
+from d_play_list_items, d_track_listings 
+where d_play_list_items.song_id = d_track_listings.song_id; 
+
+
+
+3. 
+select d_songs.title, d_songs.type_code , d_types.description 
+from d_songs, d_types; 
+
+
+
+4. SELECT d_songs.id, d_songs.title, d_songs.type_code type, d_types.description 
+FROM d_songs, d_types 
+where d_songs.id = 47 or d_songs.id = 48;
+
+
+
+5. select * 
+from d_clients ,d_events , d_job_assignments; 
+
+
+
+6. select d_track_listings.song_id , d_cds.title  
+from d_track_listings, d_cds; 
+
+
+
+
+7.1.  
+select LOW_RANGE, HIGH_RANGE, d_events.name, d_packages.code 
+from d_packages, d_events 
+where d_events.cost between d_packages.low_range AND d_packages.high_range 
+
+
+
+7.2. select employees.last_name, employees.salary, job_grades.grade_level 
+from employees,job_grades 
+where employees.salary between job_grades.lowest_sal and job_grades.highest_sal; 
+
+
+
+
+5. WHERE a.ranking >= g.lowest_rank AND a.ranking <= g. highest_rank 
+
+
+
+
+6. - when query targets recursive relationships 
+
+
+
+7. select * 
+from f_customers, f_orders; 
+
+
+
+
+8. SELECT employees.last_name, employees.department_id, departments.department_name 
+FROM employees, departments 
+
+
+
+11.
+select d_cds.title , d_track_listings.song_id 
+from d_cds, d_track_listings 
+where d_cds.cd_number = d_track_listings.cd_number(+) ; 
+
+
+
+
+
+ 
+12. SELECT AVG(cost)  
+FROM d_events; 
+
+
+
+13. SELECT AVG(salary)  
+FROM f_staffs 
+WHERE manager_id = 19;
+
+
+
+14. 
+ 
+SELECT SUM(salary)  
+FROM f_staffs 
+WHERE manager_id=12 or manager_id= 9; 
+
+
+
+
+15. 
+SELECT Min(salary) "мин зарплата", Max(hire_date) "последняя дата найма", Min(last_name) "Первая фамилия", Max(last_name) "Последняя фамилия" 
+FROM employees 
+WHERE department_id in (50, 60); 
+
+
+
+
+
+16. SELECT AVG(order_total) 
+FROM f_orders 
+WHERE order_date BETWEEN TO_DATE('January 1, 2002', 'fmMonth DD, YYYY') AND TO_DATE('December 21, 2002', 'fmMonth DD, YYYY'); 
+
+
+
+
+ 
+17.  
+SELECT COUNT( title) 
+FROM d_songs; 
+
+
+
+
+18. 
+select count(loc_type) 
+from d_venues;
+
+
+
+19. 
+select count(song_id), count(distinct cd_number)  
+from d_track_listings; 
+
+
+
+
+20. 
+select count(email)  
+from d_clients
+
+
+
+
+21. 
+
+select (count(*) - count(auth_expense_amt))  
+from d_partners; 
+
+
+
+
+22. 
+
+SELECT TO_CHAR(ROUND(AVG(NVL(auth_expense_amt,100000)),2), '$999999.99')  
+FROM d_partners; 
+
+
+
+
+
+23. 
+ 
+SELECT TO_CHAR(ROUND(AVG(NVL(auth_expense_amt,100000)),2), '$999999.99')  
+FROM d_partners; 
+ 
+
+
+
+
+24. Rewrite the following query to accomplish the same result: 
+SELECT DISTINCT MAX(song_id) FROM d_track_listings 
+WHERE track IN ( 1, 2, 3); 
+select manager_id,AVG(salary) 
+from employees 
+group by manager_id 
+having AVG(salary) <16000; 
+
+
+
+
+
+25. 
+SELECT ROUND(MAX(AVG(salary)),2) as "MAX AVG", ROUND(MIN(AVG(salary)),2) "MIN AVG" 
+FROM employees 
+GROUP BY department_id; 
+
+26. Write a query that will return the average of the maximum salaries in each department for the employees table. 
+SELECT AVG(MAX(salary)) 
+FROM employees 
+GROUP BY department_id; 
+
+
+
+
+
+
+27: 
+1. select last_name, first_name, department_name 
+from employees  
+cross join departments; 
+
+
+
+
+
+28. select department_id ,department_name, location_id, city 
+from departments  
+natural join locations 
+
+
+
+
+
+29. select department_id,department_name, location_id, city 
+from departments 
+natural join locations 
+where department_id = 20 or department_id = 50; 
+
+
+
+
+
+30
+1. select *  
+from locations l join departments d  
+on(l.location_id = d.location_id); 
+
+
+
+
+31. select city,department_name,location_id,department_id 
+from departments join locations 
+using (location_id) 
+where department_id in (10,20,30) 
+and city='Seattle'; 
+
+
+
+
+
+32. select country_name,region_id,region_name  
+from countries  
+natural join REGIONS 
+where REGION_NAME LIKE '%America%'  
+
+
+
+
+33. select first_name,last_name,hire_date,job_id,job_title,max_salary  
+from employees 
+natiral join jobs  
+using (job_id)  
+where salary>12000 
+
+
+
+
+34. select first_name,last_name,email,job_title  
+from jobs  
+natural join employees  
+using (job_id)  
+where job_title='Stock Clerk'; 
+
+
+
+
+
+35. select e.employee_id,e.first_name,e.last_name,m.employee_id,m.first_name,m.last_name  
+from employees e,employees m  
+where e.employee_id=m.employee_id; 
+
+
+
+
+
+36.  
+select employee_id,last_name,department_id,department_name,hire_date 
+from employees 
+join departments 
+using(department_id) 
+where hire_date = '07-JUN-94'; 
+
+
+
+
+ 
+37: 
+1. Select FIRST_NAME, LAST_NAME, DEPARTMENT_NAME 
+from employees  
+natural join departments 
+where DEPARTMENT_NAME is not null  
+
+
+
+
+38.  
+Select FIRST_NAME, LAST_NAME, DEPARTMENT_NAME 
+from employees  
+natural join departments 
+where EMPLOYEE_ID is not null  
+
+
+
+
+39.  
+Select FIRST_NAME, LAST_NAME, DEPARTMENT_NAME 
+from employees  
+natural join departments 
+where EMPLOYEE_ID is not null and DEPARTMENT_NAME is not null 
+
+
+
+
+
+
+40.  
+SELECT first_name, last_name, event_date, description 
+FROM d_clients  
+natural join d_events 
+
+
+41.  
+SELECT f_shifts.description "shift description", f_shift_assignments.shift_assign_date AS "shift assignment date" 
+FROM f_shifts  
+natural join f_shift_assignments  
+
+
+
+
+
+
+42: 
+1. SELECT emp.last_name "Employee", emp.employee_id "Emp#", mgr.last_name "Manager", mgr.employee_Id "Mgr#" 
+FROM employees emp INNER JOIN employees mgr ON emp.manager_id = mgr.employee_Id;  
+
+
+
+
+
+43. SELECT emp.last_name "Employee", emp.employee_id "Emp#", mgr.last_name "Manager", mgr.employee_Id "Mgr#" 
+FROM employees emp LEFT OUTER JOIN employees mgr ON emp.manager_id = mgr.employee_Id 
+ORDER BY "Employee"; 
+
+
+
+
+
+
+45. SELECT emp.last_name "Employee", emp.hire_date "Emp Hired", mgr.last_name "Manager", mgr.hire_date "Mgr Hired" 
+FROM employees emp LEFT OUTER JOIN employees mgr ON emp.manager_id = mgr.employee_Id 
+WHERE emp.hire_date < mgr.hire_date 
+ORDER BY "Employee"; 
+
+
+
+
+
+46.  
+SELECT first_name, last_name, salary, department_id, manager_id, employee_id  
+FROM employees  
+WHERE first_name = 'Lex' AND last_name = 'De Haan'  
+CONNECT BY PRIOR employee_id = manager_id;  
